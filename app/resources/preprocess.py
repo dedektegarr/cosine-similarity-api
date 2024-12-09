@@ -1,47 +1,57 @@
-import nltk
-import re
 import json
+import glob
+import os
 
 from flask import request
 from flask_restful import Resource
-from app.utils.utils import documentUpload, extract_text
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-
-nltk.download('punkt_tab')
-nltk.download('punkt')
-nltk.download('stopwords')
+from app.utils.utils import documentUpload, preprocessDocument, is_valid_pdf, is_json_exists, search_json_file
 
 class Preprocess(Resource):
+    def get(self):
+        filename = request.args.get('filename', '')
+
+        if filename:
+            result = search_json_file(filename)
+
+            return {"word_tokens": result}
+        
+        else:
+            pdf_paths = glob.glob('uploads/**/*.pdf', recursive=True)
+
+            # Folder untuk menyimpan hasil proses
+            output_folder = 'processed_text'
+            os.makedirs(output_folder, exist_ok=True)
+
+            for path in pdf_paths:
+                if is_json_exists(path, output_folder):
+                    print(f"Skipping {path}, JSON file already exists.")
+                    continue
+
+                if not is_valid_pdf(path):
+                    print(f"Skipping invalid PDF: {path}")
+                    continue  # Skip file jika tidak valid
+
+                processed_text = preprocessDocument(path)
+
+                # Pertahankan nama file dengan mengganti ekstensi menjadi .json
+                file_name = os.path.basename(path).replace('.pdf', '.json')
+                output_path = os.path.join(output_folder, file_name)
+
+                # Simpan hasil ke file JSON
+                with open(output_path, 'w', encoding='utf-8') as json_file:
+                    json.dump(processed_text, json_file, indent=4)
+
+            return {"message": pdf_paths}
+
     def post(self):
         # Upload file
         upload = documentUpload(request.files)
         if upload == False:
             return {"message": "Gagal mengupload file"}
 
-        # Ekstrak teks
-        file_path = upload['file_path']
-        text = extract_text(file_path)
+        result = preprocessDocument(upload['file_path'])
 
-        # Hapus angka dan simbol yang tidak relevan
-        text = re.sub(r'\d+', '', text)
-        text = re.sub(r'\W+', ' ', text)
-        
-        # Tokenizing (pemecahan menjadi kata)
-        tokens = word_tokenize(text)
-
-        # Filtering Stop Words (penghapusan kata tidak penting)
-        stop_words = set(stopwords.words('indonesian'))
-        filtered_tokens = [word for word in tokens if len(word) > 2 if word.isalnum() and word not in stop_words]
-
-        # Stemming (penghilangan imbuhan / Indonesian stemming)
-        factory = StemmerFactory()
-        stemmer = factory.create_stemmer()
-        unique_tokens = list(dict.fromkeys(filtered_tokens))
-        stemmed_text = stemmer.stem(' '.join(unique_tokens))
-
-        return {"message": json.dumps(stemmed_text)}
+        return {"message": json.dumps(result)}
 
         
     

@@ -16,5 +16,5 @@ class CosineSimilarity(Resource):
         matrix = vectorizer.fit_transform(word_tokens)
         result = cosine_similarity(matrix[0], matrix)
 
-        return {"message": result[0].tolist()}
+        return {"similarities": result[0].tolist()}
     

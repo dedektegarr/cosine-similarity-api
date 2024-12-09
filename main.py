@@ -7,8 +7,8 @@ app = Flask(__name__)
 api = Api(app)
 
 # Routes
-api.add_resource(CosineSimilarity, '/calculate')
-api.add_resource(Preprocess, '/preprocess')
+api.add_resource(CosineSimilarity, 'api/cosim/calculate')
+api.add_resource(Preprocess, 'api/cosim/preprocess')
 
 if __name__ == "__main__":
     app.run(debug=True)

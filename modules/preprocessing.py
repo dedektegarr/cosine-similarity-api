@@ -6,6 +6,7 @@ from nltk.corpus import stopwords
 import nltk
 
 # Unduh stopwords jika belum ada
+nltk.download("punkt_tab")
 nltk.download("punkt")
 nltk.download("stopwords")
 

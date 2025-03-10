@@ -82,7 +82,10 @@ Secara default, API berjalan di `http://127.0.0.1:5000`.
 
 ```json
 {
-  "similarity_score": 0.52
+  "similarity_matrix": [
+    [1.0000000000000007, 0.8757463061376463],
+    [0.8757463061376463, 1.0000000000000002]
+  ]
 }
 ```
 

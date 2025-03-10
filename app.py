@@ -8,7 +8,7 @@ app = Flask(__name__)
 def preprocess():
     data = request.get_json()
     if not data or "text" not in data or not data["text"].strip():
-        return jsonify({"error": "Text tidak boleh kosong ya dek ya"}), 400
+        return jsonify({"error": "Text tidak boleh kosong ya dek ya burit kau tu"}), 400
     
     processed_text = preprocess_text(data["text"])
     return jsonify({"processed_text": processed_text})

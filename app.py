@@ -11,7 +11,7 @@ def preprocess():
         return jsonify({"error": "Texts tidak boleh kosong dan harus berupa array"}), 400
     
     processed_texts = [preprocess_text(text) for text in data["texts"]]
-    return jsonify({"processed_texts": processed_texts})
+    return jsonify({"preprocessed_texts": processed_texts})
 
 @app.route("/api/similarity", methods=["POST"])
 def similarity():

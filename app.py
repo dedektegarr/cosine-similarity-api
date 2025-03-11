@@ -7,17 +7,17 @@ app = Flask(__name__)
 @app.route("/api/preprocess", methods=["POST"])
 def preprocess():
     data = request.get_json()
-    if not data or "text" not in data or not data["text"].strip():
-        return jsonify({"error": "Text tidak boleh kosong"}), 400
+    if not data or "texts" not in data or not isinstance(data["texts"], list):
+        return jsonify({"error": "Texts tidak boleh kosong dan harus berupa array"}), 400
     
-    processed_text = preprocess_text(data["text"])
-    return jsonify({"processed_text": processed_text})
+    processed_texts = [preprocess_text(text) for text in data["texts"]]
+    return jsonify({"processed_texts": processed_texts})
 
 @app.route("/api/similarity", methods=["POST"])
 def similarity():
     data = request.get_json()
-    if not data or "texts" not in data:
-        return jsonify({"error": "Texts tidak boleh kosong"}), 400
+    if not data or "texts" not in data or not isinstance(data["texts"], list):
+        return jsonify({"error": "Texts tidak boleh kosong dan harus berupa array"}), 400
     
     similarity_matrix = calculate_cosine_similarity(data["texts"])
     return jsonify({"similarity_matrix": similarity_matrix})

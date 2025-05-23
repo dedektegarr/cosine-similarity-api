@@ -49,7 +49,10 @@ Secara default, API berjalan di `http://127.0.0.1:5000`.
 
 ```json
 {
-  "text": "Mahasiswa sedang mengerjakan tugas akhir di kampus dengan tekun."
+  "texts": [
+    "Mahasiswa sedang mengerjakan tugas akhir di kampus dengan tekun.",
+    "Mahasiswa sedang mengerjakan tugas akhir di kampus dengan tekun."
+  ]
 }
 ```
 
@@ -57,7 +60,10 @@ Secara default, API berjalan di `http://127.0.0.1:5000`.
 
 ```json
 {
-  "processed_text": "mahasiswa tugas akhir kampus tekun"
+  "processed_texts": [
+    "mahasiswa tugas akhir kampus tekun",
+    "mahasiswa tugas akhir kampus tekun"
+  ]
 }
 ```
 

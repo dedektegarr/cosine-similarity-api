@@ -20,7 +20,7 @@ def similarity():
         return jsonify({"error": "Texts tidak boleh kosong dan harus berupa array"}), 400
     
     similarity_matrix = calculate_cosine_similarity(data["texts"])
-    return jsonify({"similarity_matrixss": similarity_matrix})
+    return jsonify({"similarity_matrix": similarity_matrix})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

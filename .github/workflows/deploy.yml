@@ -20,9 +20,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/cosim.apridev.cloud
+            cd /home/u1605088/public_html/cosim.rumahilmu.org
             git pull origin main
-            source venv/bin/activate
+            source /home/u1605088/virtualenv/public_html/cosim.rumahilmu.org/3.10/bin/activate && cd /home/u1605088/public_html/cosim.rumahilmu.org
             pip install -r requirements.txt
-            sudo systemctl restart flask_cosim.service
-            sudo systemctl restart nginx
+            touch tmp/restart.txt

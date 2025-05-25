@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Deploy to Vps
+      - name: Deploy to Cpanel
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}

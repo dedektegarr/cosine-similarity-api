@@ -20,8 +20,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/u1605088/public_html/cosim.rumahilmu.org
+            cd ${{ secrets.SSH_TARGET }}
             git pull origin main
-            source /home/u1605088/virtualenv/public_html/cosim.rumahilmu.org/3.10/bin/activate && cd /home/u1605088/public_html/cosim.rumahilmu.org
+            source ${{ secrets.SSH_VIRTUALENV }}
             pip install -r requirements.txt
             touch tmp/restart.txt
